@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<!-- saved from url=(0232)file:///Users/alex/Library/Application%20Support/Claude/local-agent-mode-sessions/12b047d9-42a4-48c4-b8ff-af87d7dbba7c/4fea67ac-5f0b-413d-8fd2-e9d8c7d9f895/local_231dcd82-b395-4c0c-afed-2068071434d2/outputs/account-pulse-mockup.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Account Pulse — Meridian Capital Partners (Sample Mockup)</title>
+<script src="./demo_files/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg: #f7f4ec;
+    --card-bg: #ffffff;
+    --header-bg: #2c4638;
+    --header-bg-2: #35543f;
+    --ink: #26362d;
+    --ink-soft: #5c6a60;
+    --green-dark: #2f4a3d;
+    --green-mid: #3d6650;
+    --tan: #d9c9a3;
+    --rust: #b8462f;
+    --rust-soft: #c96a4d;
+    --border: #e7e1d2;
+    --shadow: 0 1px 3px rgba(38,54,45,0.06), 0 1px 2px rgba(38,54,45,0.08);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin:0;
+    background: var(--bg);
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+  }
+  .header{
+    background: linear-gradient(135deg, var(--header-bg), var(--header-bg-2));
+    color: #f4f1e6;
+    padding: 22px 32px 20px;
+  }
+  .header h1{
+    margin: 0 0 4px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+  .header p{
+    margin: 0;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 12.5px;
+    color: #cfd8cd;
+  }
+  .tag{
+    display:inline-block;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: rgba(244,241,230,0.14);
+    border: 1px solid rgba(244,241,230,0.35);
+    color: #f4f1e6;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  .wrap{ padding: 22px 32px 40px; max-width: 1500px; margin: 0 auto; }
+
+  .kpi-row{
+    display:grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .card{
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .kpi{
+    padding: 14px 16px;
+  }
+  .kpi .label{
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .kpi .value{
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height: 1;
+  }
+  .kpi .value.rust{ color: var(--rust); }
+  .kpi .sub{
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+
+  .section-title{
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 28px 0 10px;
+  }
+
+  .grid-4{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .grid-2{
+    display:grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 14px;
+  }
+  .grid-2b{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .panel{
+    padding: 16px 18px 12px;
+  }
+  .panel h3{
+    font-size: 12.5px;
+    text-align:center;
+    margin: 0 0 8px;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .chart-box{ position: relative; height: 190px; }
+  .chart-box.tall{ height: 230px; }
+
+  .legend-note{
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    text-align:center;
+    margin-top: 6px;
+  }
+
+  .list-panel ul{
+    margin: 0;
+    padding: 0 0 0 0;
+    list-style: none;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+  }
+  .list-panel li{
+    display:flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 12.5px;
+    padding: 7px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .list-panel li:last-child{ border-bottom: none; }
+  .list-panel .n{
+    color: var(--ink-soft);
+    font-size: 11px;
+  }
+  .pill{
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: #eef2ec;
+    color: var(--green-mid);
+    font-weight: 600;
+  }
+  .pill.rust{ background: #f6e6e0; color: var(--rust); }
+
+  .score-panel{
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content:center;
+    padding: 22px 16px;
+  }
+  .score-num{
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--green-dark);
+    line-height:1;
+  }
+  .score-label{
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    margin-top: 8px;
+  }
+  .score-badge{
+    margin-top: 12px;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 12px;
+    background: #eef2ec;
+    color: var(--green-mid);
+  }
+
+  .reason-list{
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding-left: 18px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  .narrative{
+    background: linear-gradient(135deg, #fbf8ef, #f3ede0);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--rust);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .narrative b{ color: var(--rust); }
+  .narrative.positive{ border-left-color: var(--green-mid); }
+  .narrative.positive b{ color: var(--green-mid); }
+  .narrative .tag-inline{
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    display:block;
+    margin-bottom: 6px;
+  }
+
+  .footer-note{
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 10.5px;
+    color: var(--ink-soft);
+    text-align:center;
+    margin-top: 30px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Account Pulse — Meridian Capital Partners</h1>
+  <p>Quarterly Account Intelligence · Prepared for CS &amp; Sales · Q2 2026 (Apr–Jun) · Generated Aug 13, 2026</p>
+  <span class="tag">Sample Mockup · Illustrative Data</span>
+</div>
+
+<div class="wrap">
+
+  <div class="kpi-row">
+    <div class="card kpi">
+      <div class="label">Plan</div>
+      <div class="value" style="font-size:20px;">Enterprise</div>
+      <div class="sub">Customer since Mar 2022</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Active Rooms</div>
+      <div class="value">7</div>
+      <div class="sub">14 opened all-time</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Total Users</div>
+      <div class="value">186</div>
+      <div class="sub">+12 this quarter</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">Data Volume</div>
+      <div class="value">4.8 TB</div>
+      <div class="sub">Across active rooms</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">ARR (TTM)</div>
+      <div class="value">$412K</div>
+      <div class="sub">Top 8% of book</div>
+    </div>
+    <div class="card kpi">
+      <div class="label">CSAT (30d)</div>
+      <div class="value rust">71%</div>
+      <div class="sub" style="color:#b8462f;">↓ 12 pts vs prior month</div>
+    </div>
+  </div>
+
+  <div class="section-title">Account Health &amp; Support Signal</div>
+  <div class="grid-4">
+    <div class="card panel">
+      <h3>Support Ticket Volume</h3>
+      <div class="chart-box"><canvas id="ticketVol" width="621" height="310" style="display: block; box-sizing: border-box; height: 155px; width: 310px;"></canvas></div>
+      <div class="legend-note">18 tickets this quarter vs. 9 prior quarter</div>
+    </div>
+    <div class="card panel">
+      <h3>Ticket Themes</h3>
+      <div class="chart-box"><canvas id="ticketThemes" width="380" height="380" style="display: block; box-sizing: border-box; height: 190px; width: 190px;"></canvas></div>
+      <div class="legend-note">AI-clustered from ticket text</div>
+    </div>
+    <div class="card panel">
+      <h3>CSAT / NPS Trend</h3>
+      <div class="chart-box"><canvas id="csatTrend" width="621" height="310" style="display: block; box-sizing: border-box; height: 155px; width: 310px;"></canvas></div>
+      <div class="legend-note">Monthly rolling average</div>
+    </div>
+    <div class="card panel">
+      <h3>Use Case Mix</h3>
+      <div class="chart-box"><canvas id="useCaseMix" width="380" height="380" style="display: block; box-sizing: border-box; height: 190px; width: 190px;"></canvas></div>
+      <div class="legend-note">Transactional vs. durable rooms</div>
+    </div>
+  </div>
+
+  <div class="section-title">Voice of the Customer</div>
+  <div class="grid-2b">
+    <div class="card panel">
+      <h3>Competitors Mentioned (Sales + CS Calls)</h3>
+      <div class="chart-box tall"><canvas id="competitors" width="920" height="460" style="display: block; box-sizing: border-box; height: 230px; width: 460px;"></canvas></div>
+    </div>
+    <div class="card panel">
+      <h3>Features Discussed</h3>
+      <div class="chart-box tall"><canvas id="features" width="920" height="460" style="display: block; box-sizing: border-box; height: 230px; width: 460px;"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid-2b" style="margin-top:14px;">
+    <div class="card panel list-panel">
+      <h3 style="text-align:left;">Recurring Pain Points</h3>
+      <ul>
+        <li><span>Bulk download timing out on large data rooms</span><span class="pill rust">7 mentions</span></li>
+        <li><span>Redaction tool slow on scanned PDFs</span><span class="pill rust">5 mentions</span></li>
+        <li><span>Confusing permission groups for external advisors</span><span class="pill">4 mentions</span></li>
+        <li><span>Requests for SSO / SCIM provisioning</span><span class="pill">3 mentions</span></li>
+      </ul>
+    </div>
+    <div class="card panel list-panel">
+      <h3 style="text-align:left;">Expansion Signal (Raw Mentions)</h3>
+      <ul>
+        <li><span>Asked about long-term document repository pricing</span><span class="pill">CS call, Jun 2026</span></li>
+        <li><span>Mentioned evaluating us for internal governance docs</span><span class="pill">CS call, May 2026</span></li>
+        <li><span>New deal team requested a room — 2nd this quarter</span><span class="pill">Sales, Jun 2026</span></li>
+        <li><span>Asked about multi-year contract terms</span><span class="pill">Sales, Apr 2026</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">Expansion Potential</div>
+  <div class="grid-4">
+    <div class="card score-panel">
+      <div class="chart-box" style="height:150px; width:150px;">
+        <canvas id="scoreGauge" width="300" height="300" style="display: block; box-sizing: border-box; height: 150px; width: 150px;"></canvas>
+        <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+          <div class="score-num" style="font-size:36px;">78</div>
+        </div>
+      </div>
+      <div class="score-label">Expansion Likelihood / 100</div>
+      <div class="score-badge">High confidence</div>
+    </div>
+    <div class="card panel" style="grid-column: span 3;">
+      <h3 style="text-align:left;">Why this score</h3>
+      <ol class="reason-list">
+        <li>Financial services / M&amp;A industry — historically high multi-use-case adoption in our book</li>
+        <li>2nd deal room opened this quarter alone; frequent, repeat usage pattern</li>
+        <li>Enterprise tier, top 8% ARR — strong existing commercial relationship</li>
+        <li>CS calls (May, Jun) show explicit interest in a long-term document repository — a durable, non-transactional use case</li>
+        <li>Only 1 of 7 active rooms (18% of data volume) is a durable use case today — the rest are deal-linked and will close; a repository expansion would diversify and protect revenue</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="section-title">Summary &amp; Recommended Actions</div>
+  <div class="narrative">
+    <span class="tag-inline">⚠ Risk Flag</span>
+    CSAT dropped <b>12 points</b> this month, coinciding with a <b>2x increase</b> in support tickets referencing bulk-download timeouts on large rooms. Three separate CS calls describe the issue as "recurring" and "disruptive to deal timelines." <b>Recommend flagging to Product for investigation</b> before the account's next QBR.
+  </div>
+  <div class="narrative positive">
+    <span class="tag-inline">↑ Expansion Opportunity</span>
+    Despite the support friction, the account shows strong expansion signal: a second deal room opened this quarter and two separate calls raised interest in a long-term document repository. All 7 active rooms are currently transactional and will close when deals close. <b>Recommend AE follow-up to scope a durable-use-case pilot</b> ahead of renewal.
+  </div>
+
+  <div class="footer-note">Account Pulse (concept mockup) · Built on the same call-transcript and ticket AI pipeline as Product Pulse · Illustrative data only</div>
+</div>
+
+<script>
+const green = '#2f4a3d', greenMid = '#3d6650', tan = '#d9c9a3', rust = '#b8462f', rustSoft='#c96a4d', ink='#26362d';
+const softGrid = 'rgba(38,54,45,0.08)';
+Chart.defaults.font.family = "-apple-system, Helvetica, Arial, sans-serif";
+Chart.defaults.color = '#5c6a60';
+
+new Chart(document.getElementById('scoreGauge'), {
+  type: 'doughnut',
+  data: {
+    datasets: [{ data: [78, 22], backgroundColor: [green, '#ece7d8'], borderWidth: 0 }]
+  },
+  options: {
+    cutout: '76%',
+    rotation: -90,
+    circumference: 360,
+    plugins:{ legend:{ display:false }, tooltip:{ enabled:false } }
+  }
+});
+
+new Chart(document.getElementById('ticketVol'), {
+  type: 'bar',
+  data: {
+    labels: ['Q3 25','Q4 25','Q1 26','Q2 26'],
+    datasets: [{ data: [6,8,9,18], backgroundColor: [tan, tan, tan, rust], borderRadius: 3, maxBarThickness: 40 }]
+  },
+  options: {
+    plugins:{ legend:{ display:false } },
+    scales:{ x:{ grid:{ display:false } }, y:{ grid:{ color: softGrid }, beginAtZero:true } }
+  }
+});
+
+new Chart(document.getElementById('ticketThemes'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Download/perf issues','Permissions & access','Feature requests','Billing/admin'],
+    datasets: [{ data: [39,22,26,13], backgroundColor: [rust, tan, green, greenMid], borderWidth: 2, borderColor: '#fff' }]
+  },
+  options: {
+    cutout: '62%',
+    plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:10.5} } } }
+  }
+});
+
+new Chart(document.getElementById('csatTrend'), {
+  type: 'line',
+  data: {
+    labels: ['Mar','Apr','May','Jun'],
+    datasets: [
+      { label:'CSAT %', data:[86,84,83,71], borderColor: rust, backgroundColor: 'rgba(184,70,47,0.12)', fill:true, tension:0.35, pointRadius:3 },
+      { label:'NPS', data:[42,40,41,33], borderColor: green, backgroundColor:'transparent', tension:0.35, pointRadius:3, borderDash:[4,3] }
+    ]
+  },
+  options: {
+    plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:10.5} } } },
+    scales:{ x:{ grid:{ display:false } }, y:{ grid:{ color: softGrid } } }
+  }
+});
+
+new Chart(document.getElementById('useCaseMix'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Transactional (M&A, fundraising)','Durable (repository, governance)'],
+    datasets: [{ data: [82,18], backgroundColor: [green, tan], borderWidth: 2, borderColor:'#fff' }]
+  },
+  options: {
+    cutout: '62%',
+    plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, font:{size:10.5} } } }
+  }
+});
+
+new Chart(document.getElementById('competitors'), {
+  type: 'bar',
+  data: {
+    labels: ['Datasite','Intralinks','Ansarada','Firmex'],
+    datasets: [{ data: [9,5,3,1], backgroundColor: green, borderRadius: 3, maxBarThickness: 34 }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins:{ legend:{ display:false } },
+    scales:{ x:{ grid:{ color: softGrid }, beginAtZero:true }, y:{ grid:{ display:false } } }
+  }
+});
+
+new Chart(document.getElementById('features'), {
+  type: 'bar',
+  data: {
+    labels: ['SSO / SCIM','Bulk download speed','Redaction on scans','AI Q&A in room','Advisor permission groups'],
+    datasets: [{ data: [11,9,7,6,4], backgroundColor: rustSoft, borderRadius: 3, maxBarThickness: 30 }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins:{ legend:{ display:false } },
+    scales:{ x:{ grid:{ color: softGrid }, beginAtZero:true }, y:{ grid:{ display:false } } }
+  }
+});
+</script>
+
+
+
+</body></html>

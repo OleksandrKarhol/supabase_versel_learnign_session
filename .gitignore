@@ -1,0 +1,30 @@
+# secrets — never commit
+.env
+.env*.local
+pass.txt
+
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# misc
+.DS_Store
+*.pem
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+
+# Supabase local dev
+supabase/.branches
+supabase/.temp
