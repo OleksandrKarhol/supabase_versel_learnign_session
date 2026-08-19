@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { SignOutButton } from "./sign-out-button";
 
@@ -60,6 +61,7 @@ export default async function DashboardPage() {
                   <th className="px-4 py-3 font-semibold">ARR</th>
                   <th className="px-4 py-3 font-semibold">Active Rooms</th>
                   <th className="px-4 py-3 font-semibold">Users</th>
+                  <th className="px-4 py-3 font-semibold"></th>
                 </tr>
               </thead>
               <tbody>
@@ -80,6 +82,14 @@ export default async function DashboardPage() {
                     <td className="px-4 py-3">${Number(c.arr).toLocaleString()}</td>
                     <td className="px-4 py-3">{c.active_rooms}</td>
                     <td className="px-4 py-3">{c.total_users}</td>
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <Link href={`/clients/${c.id}`} className="mr-3 font-semibold underline" style={{ color: "var(--green-mid)" }}>
+                        Report
+                      </Link>
+                      <Link href={`/clients/${c.id}/data`} className="font-semibold underline" style={{ color: "var(--green-mid)" }}>
+                        Raw Data
+                      </Link>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -88,8 +98,9 @@ export default async function DashboardPage() {
         )}
 
         <p className="mt-6 text-xs" style={{ color: "var(--ink-soft)" }}>
-          Phase 1: auth + roles + read-only client directory. Reporting, raw data, invites,
-          cron jobs, and chat land in later phases.
+          Phase 2: reporting tab + raw data views are live — click a client&apos;s{" "}
+          <strong>Report</strong> or <strong>Raw Data</strong> link above. Invites, cron jobs,
+          and chat land in later phases.
         </p>
       </main>
     </div>
