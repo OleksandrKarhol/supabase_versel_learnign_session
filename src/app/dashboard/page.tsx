@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { currentQuarter } from "@/lib/quarter";
 import { SignOutButton } from "./sign-out-button";
+import { DirectoryTrackingTable } from "./DirectoryTrackingTable";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -20,6 +22,13 @@ export default async function DashboardPage() {
     .select("id, name, industry, plan, arr, active_rooms, total_users")
     .order("arr", { ascending: false });
 
+  const quarter = currentQuarter();
+  const { data: tracked } = await supabase
+    .from("tracked_clients")
+    .select("client_id")
+    .eq("rep_id", user!.id)
+    .eq("quarter", quarter);
+
   return (
     <div className="flex flex-1 flex-col">
       <header
@@ -35,12 +44,17 @@ export default async function DashboardPage() {
             <span className="uppercase tracking-wide">{profile?.role ?? "rep"}</span>
           </p>
         </div>
-        <SignOutButton />
+        <div className="flex items-center gap-4">
+          {profile?.role === "admin" && (
+            <Link href="/admin/users" className="text-xs font-semibold underline opacity-90 hover:opacity-100">
+              Users &amp; Invites
+            </Link>
+          )}
+          <SignOutButton />
+        </div>
       </header>
 
       <main className="mx-auto w-full max-w-5xl flex-1 px-8 py-8">
-        <h2 className="mb-4 text-lg font-bold">Client Directory</h2>
-
         {error && (
           <p className="rounded border p-4 text-sm" style={{ borderColor: "var(--border)", color: "var(--rust)" }}>
             Couldn&apos;t load clients — this usually means the database migration
@@ -51,56 +65,18 @@ export default async function DashboardPage() {
         )}
 
         {!error && (
-          <div className="overflow-hidden rounded-lg border" style={{ borderColor: "var(--border)" }}>
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="text-left" style={{ background: "var(--tan)", color: "var(--ink)" }}>
-                  <th className="px-4 py-3 font-semibold">Client</th>
-                  <th className="px-4 py-3 font-semibold">Industry</th>
-                  <th className="px-4 py-3 font-semibold">Plan</th>
-                  <th className="px-4 py-3 font-semibold">ARR</th>
-                  <th className="px-4 py-3 font-semibold">Active Rooms</th>
-                  <th className="px-4 py-3 font-semibold">Users</th>
-                  <th className="px-4 py-3 font-semibold"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {clients?.map((c, i) => (
-                  <tr
-                    key={c.id}
-                    className="border-t"
-                    style={{
-                      borderColor: "var(--border)",
-                      background: i % 2 === 0 ? "var(--card-bg)" : "#faf8f2",
-                    }}
-                  >
-                    <td className="px-4 py-3 font-medium">{c.name}</td>
-                    <td className="px-4 py-3" style={{ color: "var(--ink-soft)" }}>
-                      {c.industry}
-                    </td>
-                    <td className="px-4 py-3">{c.plan}</td>
-                    <td className="px-4 py-3">${Number(c.arr).toLocaleString()}</td>
-                    <td className="px-4 py-3">{c.active_rooms}</td>
-                    <td className="px-4 py-3">{c.total_users}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">
-                      <Link href={`/clients/${c.id}`} className="mr-3 font-semibold underline" style={{ color: "var(--green-mid)" }}>
-                        Report
-                      </Link>
-                      <Link href={`/clients/${c.id}/data`} className="font-semibold underline" style={{ color: "var(--green-mid)" }}>
-                        Raw Data
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DirectoryTrackingTable
+            clients={clients ?? []}
+            trackedClientIds={(tracked ?? []).map((t) => t.client_id)}
+            quarter={quarter}
+            userId={user!.id}
+          />
         )}
 
         <p className="mt-6 text-xs" style={{ color: "var(--ink-soft)" }}>
-          Phase 2: reporting tab + raw data views are live — click a client&apos;s{" "}
-          <strong>Report</strong> or <strong>Raw Data</strong> link above. Invites, cron jobs,
-          and chat land in later phases.
+          Phase 3: access management is live — track up to 10 clients per quarter, and admins
+          can manage roles and invites under <strong>Users &amp; Invites</strong>. Mock cron
+          jobs and chat land in later phases.
         </p>
       </main>
     </div>

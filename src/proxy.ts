@@ -1,7 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login"];
+const PUBLIC_PATHS = ["/login", "/accept-invite"];
+const PUBLIC_API_PATHS = ["/api/accept-invite"];
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -30,8 +31,9 @@ export async function proxy(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const isPublicPath = PUBLIC_PATHS.some((path) => request.nextUrl.pathname.startsWith(path));
+  const isPublicApiPath = PUBLIC_API_PATHS.some((path) => request.nextUrl.pathname.startsWith(path));
 
-  if (!user && !isPublicPath) {
+  if (!user && !isPublicPath && !isPublicApiPath) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);
